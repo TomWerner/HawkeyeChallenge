@@ -136,3 +136,8 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+AUTHENTICATION_BACKENDS = (
+    # ... your other backends
+    'minos.auth_backend.PasswordlessAuthBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)

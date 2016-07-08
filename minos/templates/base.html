@@ -8,6 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" src="{% static 'css/base.css' %}"/>
+  <link rel="stylesheet" type="text/css" src="{% static 'css/login.css' %}"/>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-static-top navbar-inverse">
@@ -29,8 +30,14 @@
         <a href="/clarify">Clarification</a>
       </li>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="navbar-right">
+        <a href="/logout">Logout</a>
+      </li>
+    </ul>
   </div>
 </nav>
+
 
 {% block content %}{% endblock %}
 

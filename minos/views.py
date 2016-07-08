@@ -1,20 +1,47 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-from .models import Greeting
+from .models import Question
+
 
 # Create your views here.
+@login_required
 def index(request):
-    # return HttpResponse('Hello from Python!')
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'current_tab': 'home'})
 
 
-def db(request):
+@login_required
+def rules(request):
+    return render(request, 'rules.html', {'current_tab': 'rules'})
 
-    greeting = Greeting()
-    greeting.save()
 
-    greetings = Greeting.objects.all()
+@login_required
+def questions(request):
+    questions = Question.objects.all()
+    return render(request, 'questions.html', {
+        'current_tab': 'questions'
+    })
 
-    return render(request, 'db.html', {'greetings': greetings})
 
+@login_required
+def leaderboard(request):
+    return render(request, 'leaderboard.html', {'current_tab': 'leaderboard'})
+
+
+@login_required
+def clarify(request):
+    return render(request, 'clarify.html', {'current_tab': 'clarify'})
+
+
+def login_view(request):
+    user = authenticate(username=request.POST['username'], use_password=False)
+    login(request, user)
+    return redirect('/', request=request)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/', request=request)

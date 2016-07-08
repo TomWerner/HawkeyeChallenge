@@ -1,0 +1,14 @@
+.login-container {
+    display: table;
+    width: 150px;
+}
+
+.login-middle-container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.login-inner {
+    margin-left: auto;
+    margin-right: auto;
+}
