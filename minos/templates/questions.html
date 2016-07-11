@@ -3,7 +3,13 @@
 
 {% block content %}
 <div class="container">
-    <h2>Page View Report</h2>
+    <h2>Questions</h2>
+{% for question in questions %}
+    <div>
+        <h3>{{ question.title }}</h3>
+        <p>{{ question.body }}</p>
+    </div>
+{% endfor %}
 </div>
 
 {% endblock %}

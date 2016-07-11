@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 
-from .models import Question
+from .models import Question, Team
 
 
 # Create your views here.
@@ -20,9 +19,11 @@ def rules(request):
 
 @login_required
 def questions(request):
-    questions = Question.objects.all()
+    team = Team.objects.get(user=request.user)
+    question_list = Question.objects.filter(division=team.division)
     return render(request, 'questions.html', {
-        'current_tab': 'questions'
+        'current_tab': 'questions',
+        'questions': question_list
     })
 
 
