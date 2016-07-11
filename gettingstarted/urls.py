@@ -5,6 +5,9 @@ admin.autodiscover()
 
 import minos.views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # Examples:
 # url(r'^$', 'gettingstarted.views.home', name='home'),
 # url(r'^blog/', include('blog.urls')),
@@ -19,4 +22,4 @@ urlpatterns = [
     url(r'^questions', minos.views.questions, name='questions'),
     url(r'^leaderboard', minos.views.leaderboard, name='leaderboard'),
     url(r'^clarify', minos.views.clarify, name='clarify'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

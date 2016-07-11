@@ -1,22 +1,33 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %}Login{% endblock %}
 {% block head %}Login{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="login-container">
-            <div class="login-middle-container">
-                <div class="login-inner">
-                    {% if form.errors %}
-                        <p>Your username was invalid. Please try again.</p>
-                    {% endif %}
-                    <form method="post" action="../../login/" class="form login-form">{% csrf_token %}
-                        <label for="id_username">Username:</label>
-                        <input type="text"
-                               class="form-control"
-                               name="{{ form.username.name }}">
-                        <input type="submit" value="Login" class="form-control"/>
-                        <input type="hidden" name="next" value="/" />
+    <div class="login-container">
+        <div class="login-middle-container">
+            <div class="login-inner row">
+                <div class="col-sm-5">
+                    <img src="{% static 'images/hcpc_logo.png' %}">
+                </div>
+                <div class="col-sm-7">
+                    <form method="post" action="../../login/" class="form">{% csrf_token %}
+                        <h3 class="login-title">Hawkeye Challenge</h3>
+                        <div class="form-group">
+                            <label for="id_username">Username:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="username">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-primary"/>
+                        </div>
+                        <input type="hidden" name="next" value="/"/>
                     </form>
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 divisions = (
     ('1', 'Division 1'),
@@ -13,7 +14,7 @@ class Question(models.Model):
 
 
 class Team(models.Model):
-    login = models.CharField(max_length=100)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=100)
     division = models.CharField(max_length=1, choices=divisions)
 
