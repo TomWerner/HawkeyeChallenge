@@ -3,6 +3,5 @@ venv
 staticfiles
 .env
 db.sqlite3
-bower_components
 node_modules
 .idea/
