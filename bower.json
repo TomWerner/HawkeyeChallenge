@@ -1,0 +1,9 @@
+{
+  "name": "HawkeyeChallenge",
+  "version": "0.0.1",
+  "dependencies": {
+    "bootstrap": "3.3.4",
+    "jquery": "2.1.3",
+    "pagedown": "1.1.0"
+  }
+}

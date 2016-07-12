@@ -116,10 +116,12 @@
     </table>
     <table name="minos_team" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
-      <column name="login" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="team_name" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="division" sqlType="VARCHAR(1)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <primary-key columns="id"/>
+      <foreign-key name="#FAKE_minos_team_1" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="minos_team_e8701ad4" unique="true" columns="user_id"/>
     </table>
     <table name="sqlite_sequence" schema="" catalog="" type="TABLE">
       <column name="name" sqlType="" precision="0" scale="-1" nullable="true" jdbcType="12"/>
