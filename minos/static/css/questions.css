@@ -1,0 +1,27 @@
+.question {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.question .question-title {
+    margin-top: 6px;
+    margin-bottom: 0;
+}
+
+.question .question-body {
+    margin-top: 15px;
+    margin-bottom: 100px;
+}
+.question .question-button {
+    width: 100%;
+}
+
+.question .question-status {
+    padding: 7px;
+    font-size: 18px;
+}
+
+.question .question-attempts {
+    padding: 7px;
+    font-size: 18px;
+}

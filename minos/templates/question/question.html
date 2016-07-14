@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/questions.css' %}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/ace.js"></script>
+    <script src="{% static 'js/question/question.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <h2>{{ question.title }}</h2>
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label for="languageSelect">Language</label>
+                <select id="languageSelect" class="form-control">
+                    <option value="ace/mode/java">Java</option>
+                    <option value="ace/mode/python">Python</option>
+                    <option value="ace/mode/vbscript">VBscript</option>
+                    <option value="ace/mode/c_cpp">C++</option>
+                    <option value="ace/mode/csharp">C#</option>
+                    <option value="ace/mode/clojure">Clojure</option>
+                    <option value="ace/mode/golang">Go</option>
+                    <option value="ace/mode/javascript">Javascript</option>
+                    <option value="ace/mode/php">PHP</option>
+                    <option value="ace/mode/ruby">Ruby</option>
+                    <option value="ace/mode/scala">Scala</option>
+                    <option value="ace/mode/perl">Perl</option>
+                </select>
+            </div>
+        </div>
+
+        <input type="hidden" id="code" value="{{ code }}">
+        <input type="hidden" id="language" value="{{ language }}">
+        <div id="editor"></div>
+    </div>
+
+{% endblock %}
