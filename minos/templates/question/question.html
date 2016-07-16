@@ -10,30 +10,51 @@
 
 {% block content %}
     <div class="container">
-        <h2>{{ question.title }}</h2>
-        <div class="row">
-            <div class="col-md-2 form-group">
-                <label for="languageSelect">Language</label>
-                <select id="languageSelect" class="form-control">
-                    <option value="ace/mode/java">Java</option>
-                    <option value="ace/mode/python">Python</option>
-                    <option value="ace/mode/vbscript">VBscript</option>
-                    <option value="ace/mode/c_cpp">C++</option>
-                    <option value="ace/mode/csharp">C#</option>
-                    <option value="ace/mode/clojure">Clojure</option>
-                    <option value="ace/mode/golang">Go</option>
-                    <option value="ace/mode/javascript">Javascript</option>
-                    <option value="ace/mode/php">PHP</option>
-                    <option value="ace/mode/ruby">Ruby</option>
-                    <option value="ace/mode/scala">Scala</option>
-                    <option value="ace/mode/perl">Perl</option>
-                </select>
+        <form name="questionSubmissionForm" id="questionSubmissionForm">
+            <h2>{{ question.title }}</h2>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="languageSelect">Language</label>
+                    <select id="languageSelect" name="language" class="form-control">
+                        <option value="ace/mode/java">Java (7)</option>
+                        <option value="ace/mode/python">Python (2)</option>
+                        <option value="ace/mode/vbscript">Visual Basic</option>
+                        <option value="ace/mode/c_cpp">C++</option>
+                        <option value="ace/mode/csharp">C#</option>
+{#                        <option value="ace/mode/clojure">Clojure</option>#}
+{#                        <option value="ace/mode/golang">Go</option>#}
+{#                        <option value="ace/mode/javascript">Javascript</option>#}
+{#                        <option value="ace/mode/php">PHP</option>#}
+{#                        <option value="ace/mode/ruby">Ruby</option>#}
+{#                        <option value="ace/mode/scala">Scala</option>#}
+{#                        <option value="ace/mode/perl">Perl</option>#}
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <input type="hidden" id="code" value="{{ code }}">
-        <input type="hidden" id="language" value="{{ language }}">
-        <div id="editor"></div>
+            <input type="hidden" name="question-id"
+                   id="question-id" value="{{ question.id }}">
+            <input type="hidden" name="code"
+                   id="code" value="{{ code }}">
+            <input type="hidden" name="language"
+                   id="language" value="{{ language }}">
+            <div class="form-group">
+                <div id="editor"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10"></div>
+                <div class="col-md-2 form-group">
+                    <div id="submit" class="btn btn-primary form-control">Submit</div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <ul class="test-case-results-list" id="test-case-results-list">
+
+            </ul>
+        </div>
     </div>
 
 {% endblock %}

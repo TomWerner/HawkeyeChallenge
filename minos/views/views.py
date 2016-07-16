@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import condition
+import datetime
 
-from .models import Question, Team
+from minos.models import Question, Team, TestCase, Submission
 
 
 # Create your views here.
@@ -39,29 +41,3 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('/', request=request)
-
-
-def question_view(request, id):
-    team = Team.objects.get(user=request.user)
-    question = get_object_or_404(Question, pk=id)
-    submissions = question.get_submissions(team=team)
-
-    return render(request, 'question/question.html', {
-        'code': submissions[0].code,
-        'language': submissions[0].language,
-        'question': question
-    })
-
-@login_required
-def questions(request):
-    team = Team.objects.get(user=request.user)
-    question_list = Question.objects.filter(division=team.division)
-    for question in question_list:
-        question.num_submissions = question.get_num_submissions(team)
-        question.solved = question.is_solved(team)
-        question.penalty = question.get_penalty(team)
-
-    return render(request, 'question/index.html', {
-        'current_tab': 'questions',
-        'questions': question_list
-    })

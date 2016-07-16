@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-2">
                     {% if question.solved %}
-                        <a href="/question/{{ question.id }}" class="btn question-button">View Question</a>
+                        <a href="/question/{{ question.id }}" class="btn btn-default question-button">View Question</a>
                         <div class="question-status">Finished!</div>
                     {% else %}
                         <a href="/question/{{ question.id }}"  class="btn btn-primary question-button">Start Question</a>
