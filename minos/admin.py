@@ -8,16 +8,23 @@ class TeamAdmin(admin.ModelAdmin):
     list_display = ('user', 'team_name', 'division')
 
 
+class TestCaseInLine(admin.TabularInline):
+    model = TestCase
+    extra = 2
+    fields = ('question', 'standard_in', 'standard_out', 'error_viewable')
+
+
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     fields = ('title', 'division', 'body')
-    list_display = ('title', 'division')
+    list_display = ('title', 'division', 'test_case_count')
 
+    inlines = [
+        TestCaseInLine
+    ]
 
-@admin.register(TestCase)
-class TestCaseAdmin(admin.ModelAdmin):
-    fields = ('question', 'standard_in', 'standard_out', 'error_viewable')
-    list_display = fields
+    def test_case_count(self, obj):
+        return TestCase.objects.filter(question=obj).count()
 
 
 @admin.register(Submission)

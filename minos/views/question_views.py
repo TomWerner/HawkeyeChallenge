@@ -55,26 +55,17 @@ def fix_output_for_visual_basic(output):
 def stream_submit_question(request, question):
     team = Team.objects.get(user=request.user)
     test_cases = TestCase.objects.filter(question=question)
+    language_to_id = {
+        'ace/mode/python': 0,
+        'ace/mode/python-3': 5,
+        'ace/mode/c_cpp': 1,
+        'ace/mode/java': 2,
+        'ace/mode/vbscript': 3,
+        'ace/mode/csharp': 4
+    }
 
     submission_code = request.GET['code']
     submission_language = request.GET['language']
-    language_to_id = {
-        'ace/mode/csharp': 10,
-        'ace/mode/c_cpp': 7,
-        'ace/mode/clojure': 2,
-        'ace/mode/java': 8,
-        'ace/mode/golang': 6,
-        'ace/mode/javascript': 4,
-        'ace/mode/php': 3,
-        'ace/mode/python': 0,
-        'ace/mode/ruby': 1,
-        'ace/mode/scala': 5,
-        'ace/mode/vbscript': 9,
-        'ace/mode/batchfile': 11,
-        'ace/mode/objectivec': 12,
-        'ace/mode/mysql': 13,
-        'ace/mode/perl': 14
-    }
 
     submission = Submission(team=team,
                             question=question,
@@ -85,7 +76,7 @@ def stream_submit_question(request, question):
 
     for i, test_case in enumerate(test_cases):
         try:
-            r = requests.post(settings.COMPILEBOX_URL + "/compile", data={
+            r = requests.post(settings.COMPILEBOX_URL + "/compile", json={
                 "language": language_to_id[submission.language],
                 "code": submission.code,
                 "stdin": test_case.standard_in
@@ -109,12 +100,12 @@ def stream_submit_question(request, question):
             actual_output = json_response['output'].strip().replace('\r', '')
             if submission_language == 'ace/mode/vbscript':
                 actual_output = fix_output_for_visual_basic(actual_output)
-            expected_output = test_case.standard_out.strip().replace('\r', '')
+            expected_output = test_case.standard_out.strip().replace('\r', '').replace('BLANK', '')
             passed_test_case = actual_output == expected_output
             if not passed_test_case:
                 message = 'Test Case %d Failed.' % (i + 1)
                 if test_case.error_viewable:
-                    message += '\n\nExpected Output:\n%s \n\nActual Ouput:\n%s' % (expected_output, actual_output)
+                    message += '\n\nExpected Output:\n%s \n\nActual Output:\n%s' % (expected_output, actual_output)
         if not passed_test_case:
             submission.correct = False
 

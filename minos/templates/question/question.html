@@ -18,16 +18,10 @@
                     <select id="languageSelect" name="language" class="form-control">
                         <option value="ace/mode/java">Java (7)</option>
                         <option value="ace/mode/python">Python (2)</option>
+                        <option value="ace/mode/python-3">Python (3)</option>
                         <option value="ace/mode/vbscript">Visual Basic</option>
                         <option value="ace/mode/c_cpp">C++</option>
                         <option value="ace/mode/csharp">C#</option>
-{#                        <option value="ace/mode/clojure">Clojure</option>#}
-{#                        <option value="ace/mode/golang">Go</option>#}
-{#                        <option value="ace/mode/javascript">Javascript</option>#}
-{#                        <option value="ace/mode/php">PHP</option>#}
-{#                        <option value="ace/mode/ruby">Ruby</option>#}
-{#                        <option value="ace/mode/scala">Scala</option>#}
-{#                        <option value="ace/mode/perl">Perl</option>#}
                     </select>
                 </div>
             </div>
@@ -43,7 +37,32 @@
             </div>
 
             <div class="row">
-                <div class="col-md-10"></div>
+                <div class="col-md-12">
+                    <textarea id="stdin" rows="5" style="width: 100%" placeholder="Custom standard input"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <textarea id="stdout"
+                              rows="5"
+                              style="width: 100%"
+                              placeholder="Custom test case output"
+                              disabled></textarea>
+                </div>
+                <div class="col-md-6">
+                    <textarea id="stderr"
+                              rows="5"
+                              style="width: 100%"
+                              placeholder="Custom test case error"
+                              disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-2 form-group">
+                    <div id="submit-custom" class="btn btn-default form-control">Custom Input</div>
+                </div>
                 <div class="col-md-2 form-group">
                     <div id="submit" class="btn btn-primary form-control">Submit</div>
                 </div>
@@ -51,9 +70,9 @@
         </form>
 
         <div class="row">
-            <ul class="test-case-results-list" id="test-case-results-list">
-
-            </ul>
+            <div class="col-md-12">
+                <ul class="test-case-results-list" id="test-case-results-list"></ul>
+            </div>
         </div>
     </div>
 
