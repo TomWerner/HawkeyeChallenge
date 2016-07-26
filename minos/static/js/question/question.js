@@ -1,6 +1,26 @@
 'use strict';
 
 $(document).ready(function () {
+    // using jQuery
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
+
     var questionSubmissionForm, languageSelect, codeInput, testCaseResultsList, submitButton, editor,
         customSubmitButton;
     var testCaseResultStream;
@@ -91,35 +111,26 @@ $(document).ready(function () {
 
         customSubmitButton.on('click', function (e) {
             e.preventDefault();
-
             var code = editor.getValue().trim();
-                var languageIdLookup = {
-                    'ace/mode/java': 2,
-                    'ace/mode/python': 0,
-                    'ace/mode/python-3': 5,
-                    'ace/mode/vbscript': 3,
-                    'ace/mode/c_cpp': 1,
-                    'ace/mode/csharp': 4
-                };
 
-                $.ajax({
-                    type: "POST",
-                    url: '/compile',
-                    data: JSON.stringify({
-                        'language': languageIdLookup[languageSelect.val()],
-                        'code': code,
-                        'stdin': $('#stdin').val()
-                    }),
-                    success: function (e) {
-                        submitButton.html('Submit');
-                        submitButton.attr('disabled', false);
-                        $('#stdout').val(e['output']);
-                        $('#stderr').val(e['errors']);
-                    },
-                    dataType: 'json'
-                });
-                submitButton.html('<span class="glyphicon glyphicon-refresh spinning"></span> Evaluating...');
-                submitButton.attr('disabled', true);
+            $.ajax({
+                type: "POST",
+                url: '/customTestCase',
+                data: {
+                    'language': languageSelect.val(),
+                    'code': code,
+                    'stdin': $('#stdin').val()
+                },
+                success: function (e) {
+                    customSubmitButton.html('Custom Input');
+                    customSubmitButton.attr('disabled', false);
+                    $('#stdout').val(e['output']);
+                    $('#stderr').val(e['errors']);
+                },
+                dataType: 'json'
+            });
+            customSubmitButton.html('<span class="glyphicon glyphicon-refresh spinning"></span> Evaluating...');
+            customSubmitButton.attr('disabled', true);
         })
     };
 

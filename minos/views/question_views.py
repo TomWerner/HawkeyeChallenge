@@ -1,4 +1,4 @@
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,15 @@ import requests
 from django.conf import settings
 
 from minos.models import Question, Team, TestCase, Submission
+
+language_to_id = {
+    'ace/mode/python': 0,
+    'ace/mode/python-3': 5,
+    'ace/mode/c_cpp': 1,
+    'ace/mode/java': 2,
+    'ace/mode/vbscript': 3,
+    'ace/mode/csharp': 4
+}
 
 
 @login_required
@@ -51,18 +60,19 @@ def fix_output_for_visual_basic(output):
     return output
 
 
+@login_required
+def custom_test_case(request):
+    r = requests.post(settings.COMPILEBOX_URL + "/compile", json={
+        "language": language_to_id[request.POST['language']],
+        "code": request.POST['code'],
+        "stdin": request.POST['stdin']
+    })
+    return JsonResponse(r.json())
+
 
 def stream_submit_question(request, question):
     team = Team.objects.get(user=request.user)
     test_cases = TestCase.objects.filter(question=question)
-    language_to_id = {
-        'ace/mode/python': 0,
-        'ace/mode/python-3': 5,
-        'ace/mode/c_cpp': 1,
-        'ace/mode/java': 2,
-        'ace/mode/vbscript': 3,
-        'ace/mode/csharp': 4
-    }
 
     submission_code = request.GET['code']
     submission_language = request.GET['language']
@@ -90,7 +100,6 @@ def stream_submit_question(request, question):
         passed_test_case = False
         message = 'Test Case %d Passed.' % (i + 1)
         errors = json_response['errors']
-        print(json_response)
 
         if errors is not None and len(errors) > 0:
             message = 'Test Case %d Failed.' % (i + 1)

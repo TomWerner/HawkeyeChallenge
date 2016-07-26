@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^questions', question_views.questions, name='questions'),
     url(r'^question/([0-9]+)$', question_views.question_view, name='question_view'),
     url(r'^question/([0-9]+)/submit', question_views.submit_question, name='submit_question'),
+    url(r'^customTestCase', question_views.custom_test_case, name='custom_test_case'),
     url(r'^leaderboard', views.leaderboard, name='leaderboard'),
     url(r'^clarify', views.clarify, name='clarify'),
 ] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
