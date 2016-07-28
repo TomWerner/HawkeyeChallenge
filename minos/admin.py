@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Team, Question, Submission, TestCase
+from .models import Team, Question, Submission, TestCase, StarterCode
 
 
 @admin.register(Team)
@@ -12,6 +12,12 @@ class TestCaseInLine(admin.TabularInline):
     model = TestCase
     extra = 2
     fields = ('question', 'standard_in', 'standard_out', 'error_viewable')
+
+
+@admin.register(StarterCode)
+class StarterCodeAdmin(admin.ModelAdmin):
+    fields = ('language', 'code')
+    list_display = ('language', 'code')
 
 
 @admin.register(Question)

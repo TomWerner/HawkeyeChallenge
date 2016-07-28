@@ -7,7 +7,7 @@ from django.utils import timezone
 import requests
 from django.conf import settings
 
-from minos.models import Question, Team, TestCase, Submission
+from minos.models import Question, Team, TestCase, Submission, StarterCode
 
 language_to_id = {
     'ace/mode/python': 0,
@@ -40,11 +40,24 @@ def question_view(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     submissions = question.get_submissions(team=team)
 
+    if len(submissions) > 0:
+        code = submissions[0].code
+        language = submissions[0].language
+    else:
+        code = ''
+        language = 'ace/mode/python-3'
+
     return render(request, 'question/question.html', {
-        'code': submissions[0].code,
-        'language': submissions[0].language,
+        'code': code,
+        'language': language,
         'question': question
     })
+
+
+@login_required
+def get_starter_code(request):
+    language = request.GET['language']
+    return JsonResponse({'code': get_object_or_404(StarterCode, language=language).code})
 
 
 @condition(etag_func=None)
@@ -65,9 +78,12 @@ def custom_test_case(request):
     r = requests.post(settings.COMPILEBOX_URL + "/compile", json={
         "language": language_to_id[request.POST['language']],
         "code": request.POST['code'],
-        "stdin": request.POST['stdin']
+        "stdin": request.POST['stdin'].replace('\r', '')
     })
-    return JsonResponse(r.json())
+    json_data = r.json()
+    if request.POST['language'] == 'ace/mode/vbscript':
+        json_data['output'] = fix_output_for_visual_basic(json_data['output'])
+    return JsonResponse(json_data)
 
 
 def stream_submit_question(request, question):

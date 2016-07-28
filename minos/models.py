@@ -5,6 +5,14 @@ divisions = (
     ('1', 'Division 1'),
     ('2', 'Division 2')
 )
+languages = (
+    ('ace/mode/java', 'Java 7'),
+    ('ace/mode/python', 'Python 2'),
+    ('ace/mode/python-3', 'Python 3'),
+    ('ace/mode/vbscript', 'Visual Basic'),
+    ('ace/mode/c_cpp', 'C++ 11'),
+    ('ace/mode/csharp', 'C#'),
+)
 penalty = 10
 
 
@@ -48,7 +56,12 @@ class Team(models.Model):
 class Submission(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    language = models.CharField(max_length=20)
+    language = models.CharField(max_length=20, choices=languages)
     code = models.TextField()
     correct = models.BooleanField()
     submission_time = models.DateTimeField()
+
+
+class StarterCode(models.Model):
+    language = models.CharField(max_length=20, choices=languages)
+    code = models.TextField()

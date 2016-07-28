@@ -17,12 +17,13 @@ $(document).ready(function () {
         }
         return cookieValue;
     }
+
     $.ajaxSetup({
-        headers: { "X-CSRFToken": getCookie("csrftoken") }
+        headers: {"X-CSRFToken": getCookie("csrftoken")}
     });
 
     var questionSubmissionForm, languageSelect, codeInput, testCaseResultsList, submitButton, editor,
-        customSubmitButton;
+        customSubmitButton, modalEditor, useStarterCodeButton;
     var testCaseResultStream;
 
     var handleTestCaseResult = function (event) {
@@ -76,6 +77,35 @@ $(document).ready(function () {
         return languageString;
     };
 
+    var showModal = function () {
+        var selectedLanguage = languageSelect.val();
+        var languageText = $('[value="' + selectedLanguage + '"]').text();
+        $('.modal-title').text('Use ' + languageText + ' Starter Code?');
+        $.get('/starterCode?language=' + encodeURIComponent(selectedLanguage))
+            .success(function (e) {
+                modalEditor = ace.edit('modalEditor');
+                modalEditor.$blockScrolling = Infinity;
+                modalEditor.setTheme('ace/theme/monokai');
+                modalEditor.getSession().setMode(fixPython3(languageSelect.val()));
+                modalEditor.setOptions({maxLines: 40});
+                modalEditor.setValue(e['code']);
+                modalEditor.setReadOnly(true);
+                modalEditor.gotoLine(0);
+            });
+        $('#starter-code-modal').modal('show');
+    };
+
+    var setEditorValue = function (newEditorValue) {
+        editor.setValue(newEditorValue);
+
+        if (editor.session.getLength() <= 40) {
+            var content = editor.getValue();
+            var newLines = new Array(40 - editor.session.getLength()).join('\n');
+            editor.insert(content + newLines);
+        }
+        editor.gotoLine(0);
+    };
+
     var initPage = function () {
         questionSubmissionForm = $('#questionSubmissionForm');
         languageSelect = $('#languageSelect');
@@ -83,30 +113,33 @@ $(document).ready(function () {
         testCaseResultsList = $('#test-case-results-list');
         submitButton = $('#submit');
         customSubmitButton = $('#submit-custom');
+        useStarterCodeButton = $('#use-starter-code');
 
         languageSelect.val($('#language').val());
 
         editor = ace.edit('editor');
+        editor.$blockScrolling = Infinity;
         editor.setTheme('ace/theme/monokai');
         editor.getSession().setMode(fixPython3(languageSelect.val()));
         editor.setOptions({maxLines: 40});
-        editor.setValue(codeInput.val());
-
-        if (editor.session.getLength() <= 40) {
-            var content = editor.getValue();
-            var newLines = new Array(40 - editor.session.getLength()).join('\n');
-            editor.insert(content + newLines);
+        setEditorValue(codeInput.val());
+        if (codeInput.val().length === 0) {
+            showModal();
         }
         editor.setShowPrintMargin(false);
-        editor.gotoLine(0);
 
         languageSelect.on('change', function () {
             editor.getSession().setMode(fixPython3(this.value));
+            showModal();
         });
 
         submitButton.on('click', function (e) {
             e.preventDefault();
             onSubmit();
+        });
+
+        useStarterCodeButton.on('click', function () {
+            setEditorValue(modalEditor.getValue());
         });
 
         customSubmitButton.on('click', function (e) {
@@ -131,8 +164,17 @@ $(document).ready(function () {
             });
             customSubmitButton.html('<span class="glyphicon glyphicon-refresh spinning"></span> Evaluating...');
             customSubmitButton.attr('disabled', true);
-        })
+        });
     };
+
+    var converter = new Markdown.Converter();
+    var questions = $('.question-body-input');
+    var questionBodies = $('.question-body');
+    for (var i = 0; i < questions.length; i++) {
+        var questionMarkdown = $(questions[i]).val();
+        var questionHTML = converter.makeHtml(questionMarkdown);
+        $(questionBodies[i]).html(questionHTML);
+    }
 
     initPage();
 });
