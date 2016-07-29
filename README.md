@@ -1,4 +1,19 @@
-# python-getting-started
+# Hawkeye Challenge
+
+An online code editing, submission, and judging application designed to be used for the University of Iowa ACM chapter's
+annual Hawkeye Challenge, a high school programming competition.
+
+## Running locally
+```sh
+$ sudo pip install -r requirements.txt
+$ npm install bower
+$ bower install
+$ python manage.py migrate
+$ python manage.py loaddata startercode.json
+$ python manage.py runserver
+
+
+
 
 A barebones Python app, which can easily be deployed to Heroku.
 

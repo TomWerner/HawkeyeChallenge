@@ -1,0 +1,50 @@
+[
+  {
+    "model": "minos.startercode",
+    "pk": 1,
+    "fields": {
+      "language": "ace/mode/java",
+      "code": "import java.io.*;\nimport java.util.*;\nimport java.text.*;\nimport java.math.*;\nimport java.util.regex.*;\n\n// NOTE: Do not create any public classes. Non  public classes are ok.\nclass Solution {\n    public static void main(String[] args) throws IOException {\n        /* Try custom stdin of:\n5\nString\n2.3\n        */\n        Scanner scan = new Scanner(System.in);\n        int intFromStdIn = Integer.parseInt(scan.nextLine());\n        String lineFromStdIn = scan.nextLine();\n        double doubleFromStdIn = Double.parseDouble(scan.nextLine());\n\n        System.out.println(intFromStdIn);\n        System.out.println(doubleFromStdIn);\n        System.out.println(lineFromStdIn);\n    }\n}"
+    }
+  },
+  {
+    "model": "minos.startercode",
+    "pk": 2,
+    "fields": {
+      "language": "ace/mode/python",
+      "code": "def main():\n    '''Try a custom stdin of\n5\nString\n2.3\n    '''\n    intFromStdIn = int(raw_input())\n    lineFromStdIn = str(raw_input())\n    floatFromStdIn = float(raw_input())\n    \n    print intFromStdIn\n    print lineFromStdIn\n    print floatFromStdIn\n\nif __name__ == '__main__':\n    main()"
+    }
+  },
+  {
+    "model": "minos.startercode",
+    "pk": 3,
+    "fields": {
+      "language": "ace/mode/python-3",
+      "code": "def main():\n    '''Try a custom stdin of\n5\nString\n2.3\n    '''\n    intFromStdIn = int(input())\n    lineFromStdIn = str(input())\n    floatFromStdIn = float(input())\n    \n    print(intFromStdIn)\n    print(lineFromStdIn)\n    print(floatFromStdIn)\n\nif __name__ == '__main__':\n    main()"
+    }
+  },
+  {
+    "model": "minos.startercode",
+    "pk": 4,
+    "fields": {
+      "language": "ace/mode/vbscript",
+      "code": "Module Solution\n  Sub Main()\n    'Try a custom stdin of\n    '5\n    'String\n    '2.3\n    Dim intFromStdIn As Integer\n    Dim stringFromStdIn As String\n    Dim doubleFromStdIn As Double\n    intFromStdIn = CInt(Console.ReadLine())\n    stringFromStdIn = Console.ReadLine()\n    doubleFromStdIn = CDbl(Console.ReadLine())\n\n\n    Console.WriteLine(intFromStdIn)\n    Console.WriteLine(stringFromStdIn)\n    Console.WriteLine(doubleFromStdIn)\n  End Sub \nEnd Module"
+    }
+  },
+  {
+    "model": "minos.startercode",
+    "pk": 5,
+    "fields": {
+      "language": "ace/mode/c_cpp",
+      "code": "#include <map>\n#include <set>\n#include <list>\n#include <cmath>\n#include <ctime>\n#include <deque>\n#include <queue>\n#include <stack>\n#include <string>\n#include <bitset>\n#include <cstdio>\n#include <limits>\n#include <vector>\n#include <climits>\n#include <cstring>\n#include <cstdlib>\n#include <fstream>\n#include <numeric>\n#include <sstream>\n#include <iostream>\n#include <algorithm>\n#include <unordered_map>\n\nusing namespace std;\n\nint main() {\n    /* Try using custom stdin of:\n5\nString\n2.3\n    */\n    \n    int intFromStdIn;\n    string stringFromStdIn;\n    double doubleFromStdIn;\n\n    cin >> intFromStdIn;\n    cin >> stringFromStdIn;\n    cin >> doubleFromStdIn;\n\n    cout << intFromStdIn << endl;\n    cout << stringFromStdIn << endl;\n    cout << doubleFromStdIn << endl;\n}"
+    }
+  },
+  {
+    "model": "minos.startercode",
+    "pk": 6,
+    "fields": {
+      "language": "ace/mode/csharp",
+      "code": "using System;\nusing System.Collections.Generic;\nusing System.IO;\nusing System.Linq;\nclass Solution {\n    static void Main(String[] args) {\n        /* Try a custom stdin of:\n5\nString\n2.3\n        */\n        int intFromStdIn = Convert.ToInt32(Console.ReadLine());\n        String lineFromStdIn = Console.ReadLine();\n        double doubleFromStdIn = Convert.ToDouble(Console.ReadLine());\n        \n        Console.WriteLine(intFromStdIn);\n        Console.WriteLine(lineFromStdIn);\n        Console.WriteLine(doubleFromStdIn);\n    }\n}"
+    }
+  }
+]
