@@ -48,6 +48,14 @@
         </div>
     </div>
 </nav>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == 40 %} {# Error #}
+        <div class="alert alert-danger" style="text-align: center;"><strong>Error!</strong>&nbsp;{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 
 {% block content %}{% endblock %}
 

@@ -13,7 +13,7 @@ languages = (
     ('ace/mode/c_cpp', 'C++ 11'),
     ('ace/mode/csharp', 'C#'),
 )
-penalty = 10
+penalty_in_minutes = 10
 
 
 class Contest(models.Model):
@@ -44,7 +44,7 @@ class Question(models.Model):
         return self.submission_set.filter(team=team).count()
 
     def get_penalty(self, team):
-        return self.submission_set.filter(team=team, correct=False).count() * penalty
+        return self.submission_set.filter(team=team, correct=False).count() * penalty_in_minutes
 
 
 class TestCase(models.Model):
@@ -58,20 +58,25 @@ class Team(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=100)
     division = models.CharField(max_length=1, choices=divisions)
+    current_contest = models.ForeignKey(Contest, blank=True, null=True)
 
     def __str__(self):
         return self.team_name + "(" + self.division + ")"
 
-    def get_num_questions_answered(self):
-        result = 0
-        questions = Question.objects.filter(division=self.division)
-        for question in questions:
-            if Submission.objects.filter(question=question, team=self, correct=True).count() > 0:
-                result += 1
-        return result
+    def get_correct_and_time(self):
+        questions_correct = 0
+        penalty_time = 0
+        submission_time = 0
+        for question in Question.objects.filter(contest=self.current_contest, division=self.division):
+            num_incorrect_submissions = question.submission_set.filter(correct=False).count()
+            penalty_time = num_incorrect_submissions * penalty_time * 60  # Convert to seconds
 
-    def get_total_penalty_minutes(self):
-        return Submission.objects.filter(team=self, correct=False).count() * penalty
+            if question.submission_set.filter(correct=True).count() > 0:
+                questions_correct += 1
+                correct_submission = question.submission_set.filter(correct=True).order_by(submission_time)[0]
+                submission_time += \
+                    (correct_submission.submission_time - self.current_contest.start_date).total_seconds()
+        return questions_correct, submission_time
 
 
 class Submission(models.Model):

@@ -6,14 +6,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import condition
 import datetime
+from django.utils import timezone
+from django.contrib import messages
 
-from minos.models import Question, Team, TestCase, Submission
+from minos.models import Question, Team, TestCase, Submission, Contest
 
 
 # Create your views here.
 @login_required
 def index(request):
-    return render(request, 'index.html', {'current_tab': 'home'})
+    contests = Contest.objects.all()
+    for contest in contests:
+        if not contest.active and contest.start_date < timezone.now():
+            contest.closed = True
+    return render(request, 'index.html', {'current_tab': 'home', 'error': '', 'contests': contests})
 
 
 @login_required
@@ -24,18 +30,36 @@ def rules(request):
 @login_required
 def leaderboard(request):
     team = Team.objects.get(user=request.user)
-    team_list = Team.objects.filter(division=team.division)
+    if team.current_contest is None:
+        return render(request, 'index.html', {'error': 'Please select a contest.'})
 
-    # Sort by num questions answered first desc, then by total penalty minutes asc
-    team_list = sorted(team_list, key=lambda x: (x.get_num_questions_answered(), -x.get_total_penalty_minutes()))[::-1]
+    team_list = Team.objects.filter(division=team.division, current_contest=team.current_contest)
+
+    # Sort by num questions answered first desc, then by total minutes asc
+    team_list = sorted(team_list, key=lambda x: (x.get_correct_and_time()))[::-1]
+
     for x in team_list:
-        print(x.get_num_questions_answered(), x.get_total_penalty_minutes())
+        print(x.get_num_questions_answered(), x.get_total_time())
     return render(request, 'leaderboard.html', {'current_tab': 'leaderboard', 'team_list': team_list, 'team': team})
 
 
 @login_required
 def clarify(request):
     return render(request, 'clarify.html', {'current_tab': 'clarify'})
+
+
+@login_required
+def pick_contest(request, contest_id):
+    contest = get_object_or_404(Contest, pk=contest_id)
+    if not contest.active:
+        messages.error(request, str(contest.title) + ' is not active')
+        return redirect('/')
+
+    team = Team.objects.get(user=request.user)
+    team.current_contest = contest
+    team.save()
+
+    return redirect('/questions')
 
 
 def login_view(request):

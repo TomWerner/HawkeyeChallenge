@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^starterCode', question_views.get_starter_code, name='get_starter_code'),
     url(r'^leaderboard', views.leaderboard, name='leaderboard'),
     url(r'^clarify', views.clarify, name='clarify'),
+    url(r'^pickContest/([0-9]+)$', views.pick_contest, name='pick_contest'),
 ] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

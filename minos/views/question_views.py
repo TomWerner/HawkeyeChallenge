@@ -6,6 +6,7 @@ from django.views.decorators.http import condition
 from django.utils import timezone
 import requests
 from django.conf import settings
+from django.contrib import messages
 
 from minos.models import Question, Team, TestCase, Submission, StarterCode
 
@@ -22,7 +23,11 @@ language_to_id = {
 @login_required
 def questions(request):
     team = Team.objects.get(user=request.user)
-    question_list = Question.objects.filter(division=team.division)
+    if team.current_contest is None:
+        messages.error(request, "Please select a contest")
+        return redirect('/')
+
+    question_list = Question.objects.filter(division=team.division, contest=team.current_contest)
     for question in question_list:
         question.num_submissions = question.get_num_submissions(team)
         question.solved = question.is_solved(team)
@@ -37,7 +42,11 @@ def questions(request):
 @login_required
 def question_view(request, question_id):
     team = Team.objects.get(user=request.user)
-    question = get_object_or_404(Question, pk=question_id)
+    if team.current_contest is None:
+        return redirect(request, 'index.html', {'error': 'Please select a contest.'})
+
+
+    question = get_object_or_404(Question, pk=question_id, contest=team.current_contest)
     submissions = question.get_submissions(team=team)
 
     if len(submissions) > 0:
