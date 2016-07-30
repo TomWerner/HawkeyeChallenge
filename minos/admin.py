@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Team, Question, Submission, TestCase, StarterCode
+from .models import Team, Question, Submission, TestCase, StarterCode, Contest
 
 
 @admin.register(Team)
@@ -20,10 +20,16 @@ class StarterCodeAdmin(admin.ModelAdmin):
     list_display = ('language', 'code')
 
 
+@admin.register(Contest)
+class ContestAdmin(admin.ModelAdmin):
+    fields = ('title', 'start_date', 'active')
+    list_display = ('title', 'start_date', 'active')
+
+
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    fields = ('title', 'division', 'body')
-    list_display = ('title', 'division', 'test_case_count')
+    fields = ('contest', 'title', 'division', 'body')
+    list_display = ('contest', 'title', 'division', 'test_case_count')
 
     inlines = [
         TestCaseInLine

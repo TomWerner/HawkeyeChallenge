@@ -1,3 +1,5 @@
+import operator
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -21,7 +23,14 @@ def rules(request):
 
 @login_required
 def leaderboard(request):
-    return render(request, 'leaderboard.html', {'current_tab': 'leaderboard'})
+    team = Team.objects.get(user=request.user)
+    team_list = Team.objects.filter(division=team.division)
+
+    # Sort by num questions answered first desc, then by total penalty minutes asc
+    team_list = sorted(team_list, key=lambda x: (x.get_num_questions_answered(), -x.get_total_penalty_minutes()))[::-1]
+    for x in team_list:
+        print(x.get_num_questions_answered(), x.get_total_penalty_minutes())
+    return render(request, 'leaderboard.html', {'current_tab': 'leaderboard', 'team_list': team_list, 'team': team})
 
 
 @login_required

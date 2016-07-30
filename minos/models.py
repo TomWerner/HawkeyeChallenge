@@ -16,7 +16,17 @@ languages = (
 penalty = 10
 
 
+class Contest(models.Model):
+    title = models.CharField(max_length=100)
+    start_date = models.DateTimeField()
+    active = models.BooleanField()
+
+    def __str__(self):
+        return self.title + (' - Active!' if self.active else '')
+
+
 class Question(models.Model):
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     body = models.TextField()
     division = models.CharField(max_length=1, choices=divisions)
@@ -51,6 +61,17 @@ class Team(models.Model):
 
     def __str__(self):
         return self.team_name + "(" + self.division + ")"
+
+    def get_num_questions_answered(self):
+        result = 0
+        questions = Question.objects.filter(division=self.division)
+        for question in questions:
+            if Submission.objects.filter(question=question, team=self, correct=True).count() > 0:
+                result += 1
+        return result
+
+    def get_total_penalty_minutes(self):
+        return Submission.objects.filter(team=self, correct=False).count() * penalty
 
 
 class Submission(models.Model):
