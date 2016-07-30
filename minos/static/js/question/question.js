@@ -39,6 +39,12 @@ $(document).ready(function () {
                 testCaseResultsList.append(testResultHtml);
             }
         }
+        else if (testCaseResult.type === 'error') {
+            testCaseResultStream.close();
+            submitButton.html('Submit');
+            submitButton.attr('disabled', false);
+            alert(testCaseResult['message']);
+        }
         else {
             var testResultHtml;
             if (testCaseResult['passed']) {

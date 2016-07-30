@@ -35,12 +35,23 @@ def leaderboard(request):
 
     team_list = Team.objects.filter(division=team.division, current_contest=team.current_contest)
 
-    # Sort by num questions answered first desc, then by total minutes asc
-    team_list = sorted(team_list, key=lambda x: (x.get_correct_and_time()))[::-1]
-
     for x in team_list:
-        print(x.get_num_questions_answered(), x.get_total_time())
-    return render(request, 'leaderboard.html', {'current_tab': 'leaderboard', 'team_list': team_list, 'team': team})
+        questions_correct, total_time = x.get_correct_and_time()
+        x.questions_correct = questions_correct
+        x.total_time_seconds = total_time
+        hours = x.total_time_seconds // 3600
+        minutes = (x.total_time_seconds % 3600) // 60
+        x.total_time = str(int(hours)) + " hours, " + str(int(minutes)) + " minutes"
+
+    # Sort by num questions answered first desc, then by total minutes asc
+    team_list = sorted(team_list, key=lambda x: (x.questions_correct, -x.total_time_seconds))[::-1]
+
+    return render(request, 'leaderboard.html', {
+        'current_tab': 'leaderboard',
+        'team_list': team_list,
+        'team': team,
+        'contest': team.current_contest
+    })
 
 
 @login_required

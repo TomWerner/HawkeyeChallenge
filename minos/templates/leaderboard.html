@@ -2,8 +2,27 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="container">
-    <h2>Page View Report</h2>
-</div>
+    <div class="container">
+        <h2>Leaderboard for {{ contest.title }}</h2>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Team Name</th>
+                <th>Questions Completed</th>
+                <th>Total Time (with penalty)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for team in team_list %}
+                <tr>
+                    <td>{{ team.team_name }}</td>
+                    <td>{{ team.questions_correct }}</td>
+                    <td>{{ team.total_time }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

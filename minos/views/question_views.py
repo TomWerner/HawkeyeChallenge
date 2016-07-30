@@ -43,8 +43,8 @@ def questions(request):
 def question_view(request, question_id):
     team = Team.objects.get(user=request.user)
     if team.current_contest is None:
-        return redirect(request, 'index.html', {'error': 'Please select a contest.'})
-
+        messages.error(request, "Please select a contest")
+        return redirect('/')
 
     question = get_object_or_404(Question, pk=question_id, contest=team.current_contest)
     submissions = question.get_submissions(team=team)
@@ -69,13 +69,6 @@ def get_starter_code(request):
     return JsonResponse({'code': get_object_or_404(StarterCode, language=language).code})
 
 
-@condition(etag_func=None)
-@login_required
-def submit_question(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return StreamingHttpResponse(stream_submit_question(request, question), content_type='text/event-stream')
-
-
 def fix_output_for_visual_basic(output):
     if 'Compilation successful' in output:
         return output[output.index('Compilation took') + 33:].strip()
@@ -93,6 +86,22 @@ def custom_test_case(request):
     if request.POST['language'] == 'ace/mode/vbscript':
         json_data['output'] = fix_output_for_visual_basic(json_data['output'])
     return JsonResponse(json_data)
+
+
+@condition(etag_func=None)
+@login_required
+def submit_question(request, question_id):
+    team = Team.objects.get(user=request.user)
+    if team.current_contest is None:
+        messages.error(request, "Please select a contest")
+        return redirect('/')
+    elif not team.current_contest.active:
+        def yield_error():
+            yield 'data: {"type": "error", "message": "%s"}\n\n' % 'Error! Contest is no longer active.'
+        return StreamingHttpResponse(yield_error(), content_type='text/event-stream')
+
+    question = get_object_or_404(Question, pk=question_id)
+    return StreamingHttpResponse(stream_submit_question(request, question), content_type='text/event-stream')
 
 
 def stream_submit_question(request, question):
