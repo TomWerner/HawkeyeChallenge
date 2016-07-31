@@ -12,6 +12,17 @@ from django.contrib import messages
 from minos.models import Question, Team, TestCase, Submission, Contest
 
 
+def contest_required(function):
+    def wrapper(request, *args, **kw):
+        team = Team.objects.get(user=request.user)
+        if team.current_contest is None:
+            messages.error(request, "Please select a contest")
+            return redirect('/')
+        else:
+            return function(request, *args, **kw)
+    return wrapper
+
+
 # Create your views here.
 @login_required
 def index(request):
@@ -28,23 +39,11 @@ def rules(request):
 
 
 @login_required
+@contest_required
 def leaderboard(request):
     team = Team.objects.get(user=request.user)
-    if team.current_contest is None:
-        return render(request, 'index.html', {'error': 'Please select a contest.'})
-
     team_list = Team.objects.filter(division=team.division, current_contest=team.current_contest)
-
-    for x in team_list:
-        questions_correct, total_time = x.get_correct_and_time()
-        x.questions_correct = questions_correct
-        x.total_time_seconds = total_time
-        hours = x.total_time_seconds // 3600
-        minutes = (x.total_time_seconds % 3600) // 60
-        x.total_time = str(int(hours)) + " hours, " + str(int(minutes)) + " minutes"
-
-    # Sort by num questions answered first desc, then by total minutes asc
-    team_list = sorted(team_list, key=lambda x: (x.questions_correct, -x.total_time_seconds))[::-1]
+    team_list = rank_current_teams(team_list)
 
     return render(request, 'leaderboard.html', {
         'current_tab': 'leaderboard',
@@ -52,6 +51,20 @@ def leaderboard(request):
         'team': team,
         'contest': team.current_contest
     })
+
+
+def rank_current_teams(team_list):
+    for team in team_list:
+        questions_correct, total_time = team.get_correct_and_time()
+        team.questions_correct = questions_correct
+        team.total_time_seconds = total_time
+        hours = team.total_time_seconds // 3600
+        minutes = (team.total_time_seconds % 3600) // 60
+        team.total_time = str(int(hours)) + " hours, " + str(int(minutes)) + " minutes"
+
+    # Sort by num questions answered first desc, then by total minutes asc
+    team_list = sorted(team_list, key=lambda x: (x.questions_correct, -x.total_time_seconds))[::-1]
+    return team_list
 
 
 @login_required
