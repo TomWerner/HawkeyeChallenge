@@ -34,8 +34,12 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
-    def get_submissions(self, team):
-        return self.submission_set.filter(team=team).order_by('-submission_time')
+    def get_latest_submission(self, team):
+        submissions = self.submission_set.filter(team=team).order_by('-submission_time')
+        if len(submissions) > 0:
+            return submissions[0].code, submissions[0].language
+        else:
+            return '', 'ace/mode/python-3'
 
     def is_solved(self, team):
         return self.submission_set.filter(team=team, correct=True).count() > 0

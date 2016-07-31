@@ -47,14 +47,7 @@ def question_view(request, question_id):
         return redirect('/')
 
     question = get_object_or_404(Question, pk=question_id, contest=team.current_contest)
-    submissions = question.get_submissions(team=team)
-
-    if len(submissions) > 0:
-        code = submissions[0].code
-        language = submissions[0].language
-    else:
-        code = ''
-        language = 'ace/mode/python-3'
+    code, language = question.get_latest_submissions(team=team)
 
     return render(request, 'question/question.html', {
         'code': code,
