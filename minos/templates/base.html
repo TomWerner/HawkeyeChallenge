@@ -51,7 +51,7 @@
 {% if messages %}
     {% for message in messages %}
         {% if message.level == 40 %} {# Error #}
-        <div class="alert alert-danger" style="text-align: center;"><strong>Error!</strong>&nbsp;{{ message }}</div>
+        <div class="alert alert-danger top-message"><strong>Error!</strong>&nbsp;{{ message }}</div>
         {% endif %}
     {% endfor %}
 {% endif %}

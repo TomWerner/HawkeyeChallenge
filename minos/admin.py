@@ -4,8 +4,8 @@ from .models import Team, Question, Submission, TestCase, StarterCode, Contest
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
-    fields = ('user', 'team_name', 'division')
-    list_display = ('user', 'team_name', 'division')
+    fields = ('user', 'team_name', 'division', 'current_contest')
+    list_display = ('user', 'team_name', 'division', 'current_contest')
 
 
 class TestCaseInLine(admin.TabularInline):

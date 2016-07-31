@@ -32,7 +32,8 @@ def question_view(request, question_id):
     team = Team.objects.get(user=request.user)
 
     question = get_object_or_404(Question, pk=question_id, contest=team.current_contest)
-    code, language = question.get_latest_submissions(team=team)
+    print(dir(question))
+    code, language = question.get_latest_submission(team=team)
 
     return render(request, 'question/question.html', {
         'code': code,

@@ -17,15 +17,20 @@ def contest_required(function):
         team = Team.objects.get(user=request.user)
         if team.current_contest is None:
             messages.error(request, "Please select a contest")
-            return redirect('/')
+            return redirect('/?error')
         else:
             return function(request, *args, **kw)
     return wrapper
+    
+    
 
 
 # Create your views here.
 @login_required
 def index(request):
+    if 'error' in request.GET:
+        messages.error(request, 'A contest selection is required.')
+    
     contests = Contest.objects.all()
     for contest in contests:
         if not contest.active and contest.start_date < timezone.now():
