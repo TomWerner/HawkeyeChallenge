@@ -1,0 +1,7 @@
+{
+  "name": "node-js-getting-started",
+  "version": "0.0.1",
+  "dependencies": {
+    "npm": "~1.7.9",
+  },
+}
