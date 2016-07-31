@@ -19,7 +19,9 @@ class QuestionTestCase(TestCase):
                                           current_contest=self.contest, team_name="Team 2")
 
     def create_submission(self, team, correct, code='', language_index=0, delay=0):
-        Submission.objects.create(team=team, question=self.question, language=languages[language_index][0],
+        Submission.objects.create(team=team,
+                                  question=self.question,
+                                  language=languages[language_index][0],
                                   code=code, correct=correct,
                                   submission_time=timezone.now() + datetime.timedelta(minutes=delay))
 

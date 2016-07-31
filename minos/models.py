@@ -73,14 +73,14 @@ class Team(models.Model):
         submission_time = 0
         for question in Question.objects.filter(contest=self.current_contest, division=self.division):
             num_incorrect_submissions = question.submission_set.filter(correct=False).count()
-            penalty_time = num_incorrect_submissions * penalty_time * 60  # Convert to seconds
+            penalty_time += num_incorrect_submissions * penalty_in_minutes * 60  # Convert to seconds
 
             if question.submission_set.filter(correct=True).count() > 0:
                 questions_correct += 1
                 correct_submission = question.submission_set.filter(correct=True).order_by('submission_time')[0]
                 submission_time += \
                     (correct_submission.submission_time - self.current_contest.start_date).total_seconds()
-        return questions_correct, submission_time
+        return questions_correct, (submission_time + penalty_time)
 
 
 class Submission(models.Model):
