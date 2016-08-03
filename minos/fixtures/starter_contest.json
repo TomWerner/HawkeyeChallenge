@@ -1,0 +1,44 @@
+[{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$24000$7kM6kTKVBKHe$mA9iFm/yGuT2ESw9PpHbP5loHtgAUrc/eYAISaGrRhg=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "flying_wombats",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-08-03T22:03:15.392Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}, {
+    "model": "minos.team",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "team_name": "The Flying Wombats",
+        "division": "1",
+        "current_contest": 1
+    }
+}, {
+    "model": "minos.contest",
+    "pk": 1,
+    "fields": {
+        "title": "Sample contest",
+        "start_date": "2016-07-31T23:24:49Z",
+        "active": true
+    }
+}, {
+    "model": "minos.question",
+    "pk": 1,
+    "fields": {
+        "contest": 1,
+        "title": "Stairway to the Stars",
+        "body": "Print out a left aligned star stairstep.  \nExample:  \n  \nInput: 5  \nOutput:  \n\\*  \n\\*\\*  \n\\*\\*\\*  \n\\*\\*\\*\\*  \n\\*\\*\\*\\*\\*",
+        "division": "1"
+    }
+}]
