@@ -53,3 +53,8 @@
 .right-split-container {
     padding-top: 133px;
 }
+
+.question-container {
+    display: flex;
+    margin-bottom: 51px;
+}

@@ -87,7 +87,7 @@ def stream_submit_question(request, question):
     for i, test_case in enumerate(test_cases):
         try:
             json_response = make_compilebox_request(submission.language, submission.code, test_case.standard_in)
-        except:
+        except Exception as e:
             yield 'data: {"type": "result", "passed": false, "message": "Server error. Contact a judge."}\n\n'
             yield "data: {\"type\": \"done\"}\n\n"
             return

@@ -9,101 +9,102 @@
 
 
 {% block content %}
-    <div class="split-view-container" id="split-view">
-        <form name="questionSubmissionForm" id="questionSubmissionForm" class="col-lg-7">
-            <h2>{{ question.title }}</h2>
-            <div class="row">
-                <div class="col-md-4 form-group">
-                    <label for="languageSelect">Language</label>
-                    <select id="languageSelect" name="language" class="form-control">
-                        <option value="ace/mode/java">Java 7</option>
-                        <option value="ace/mode/python">Python 2</option>
-                        <option value="ace/mode/python-3">Python 3</option>
-                        <option value="ace/mode/vbscript">Visual Basic</option>
-                        <option value="ace/mode/c_cpp">C++ 11</option>
-                        <option value="ace/mode/csharp">C#</option>
-                    </select>
+    <div class="question-container">
+        <div class="split-view-container" id="split-view">
+            <form name="questionSubmissionForm" id="questionSubmissionForm" class="col-lg-7">
+                <h2>{{ question.title }}</h2>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="languageSelect">Language</label>
+                        <select id="languageSelect" name="language" class="form-control">
+                            <option value="ace/mode/java">Java 7</option>
+                            <option value="ace/mode/python">Python 2</option>
+                            <option value="ace/mode/python-3">Python 3</option>
+                            <option value="ace/mode/vbscript">Visual Basic</option>
+                            <option value="ace/mode/c_cpp">C++ 11</option>
+                            <option value="ace/mode/csharp">C#</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <input type="hidden" name="question-id"
-                   id="question-id" value="{{ question.id }}">
-            <input type="hidden" name="code"
-                   id="code" value="{{ code }}">
-            <input type="hidden" name="language"
-                   id="language" value="{{ language }}">
-            <div class="form-group">
-                <div id="editor"></div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-offset-8 col-md-4 form-group">
-                    <div id="submit" class="btn btn-primary form-control">Submit</div>
+                <input type="hidden" name="question-id"
+                       id="question-id" value="{{ question.id }}">
+                <input type="hidden" name="code"
+                       id="code" value="{{ code }}">
+                <input type="hidden" name="language"
+                       id="language" value="{{ language }}">
+                <div class="form-group">
+                    <div id="editor"></div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        <div class="col-lg-5 right-split-container">
-            <div class="">
-                <input type="hidden" id="{{ question.id }}" value="{{ question.body }}" class="question-body-input">
-                <div class="question-body"></div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <textarea id="stdin" rows="5" style="width: 100%" placeholder="Custom standard input"></textarea>
+            <div class="col-lg-5 right-split-container">
+                <div class="">
+                    <input type="hidden" id="{{ question.id }}" value="{{ question.body }}" class="question-body-input">
+                    <div class="question-body"></div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea id="stdin" rows="5" style="width: 100%"
+                                  placeholder="Custom standard input"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                     <textarea id="stdout"
                               rows="8"
                               style="width: 100%"
                               placeholder="Custom test case output"
                               disabled></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
                     <textarea id="stderr"
                               rows="8"
                               style="width: 100%"
                               placeholder="Custom test case error"
                               disabled></textarea>
+                    </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-offset-8 col-md-4 form-group">
-                    <div id="submit-custom" class="btn btn-default form-control">Custom Input</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="test-case-results-list" id="test-case-results-list"></ul>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="test-case-results-list" id="test-case-results-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="starter-code-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
+        <div id="starter-code-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div id="modalEditor"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Ignore</button>
+                        <button type="button" class="btn btn-primary"
+                                data-dismiss="modal" id="use-starter-code">Use Starter Code
+                        </button>
+                    </div>
                 </div>
-                <div id="modalEditor"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Ignore</button>
-                    <button type="button" class="btn btn-primary"
-                            data-dismiss="modal" id="use-starter-code">Use Starter Code
-                    </button>
-                </div>
+
             </div>
-
         </div>
     </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#" class="btn btn-danger" id="submit">Submit</a></li>
+                <li class="active"><a href="#" id="submit-custom" class="active">Custom Input</a></li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+{% block footer %}
 
 {% endblock %}
