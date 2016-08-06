@@ -95,3 +95,8 @@ class Submission(models.Model):
 class StarterCode(models.Model):
     language = models.CharField(max_length=20, choices=languages)
     code = models.TextField()
+
+
+class Rule(models.Model):
+    title = models.CharField(max_length=100)
+    body = models.TextField()

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Team, Question, Submission, TestCase, StarterCode, Contest
+from .models import Team, Question, Submission, TestCase, StarterCode, Contest, Rule
 
 
 @admin.register(Team)
@@ -18,6 +18,12 @@ class TestCaseInLine(admin.TabularInline):
 class StarterCodeAdmin(admin.ModelAdmin):
     fields = ('language', 'code')
     list_display = ('language', 'code')
+
+
+@admin.register(Rule)
+class RuleAdmin(admin.ModelAdmin):
+    fields = ('title', 'body')
+    list_display = ('title', 'body')
 
 
 @admin.register(Contest)
