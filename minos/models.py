@@ -77,7 +77,7 @@ class Team(models.Model):
 
             if question.submission_set.filter(correct=True).count() > 0:
                 questions_correct += 1
-                correct_submission = question.submission_set.filter(correct=True).order_by('submission_time')[0]
+                correct_submission = question.submission_set.filter(correct=True, team=self).order_by('submission_time')[0]
                 submission_time += \
                     (correct_submission.submission_time - self.current_contest.start_date).total_seconds()
         return questions_correct, (submission_time + penalty_time)
