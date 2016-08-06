@@ -58,3 +58,16 @@
     display: flex;
     margin-bottom: 51px;
 }
+
+.question-navbar {
+    border-top: 1px solid #bbb
+}
+
+.question-spinner-img {
+    width: 32px;
+    height: 32px;
+}
+
+.question-spinner-div {
+    text-align: center;
+}

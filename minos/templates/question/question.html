@@ -36,71 +36,86 @@
                 <div class="form-group">
                     <div id="editor"></div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 id="test-case-results-header">Test Case Results</h4>
+                        <ul class="test-case-results-list" id="test-case-results-list"></ul>
+                        <div id="question-spinner" class="question-spinner-div">
+                            <img src="{% static 'images/spin.gif' %}" class="question-spinner-img">
+                            <span>Evaluating submission</span>
+                        </div>
+                    </div>
+                </div>
             </form>
 
             <div class="col-lg-5 right-split-container">
-                <div class="">
-                    <input type="hidden" id="{{ question.id }}" value="{{ question.body }}" class="question-body-input">
-                    <div class="question-body"></div>
-                </div>
+                <div id="right-side-panel">
+                    <div class="">
+                        <input type="hidden" id="{{ question.id }}"
+                               value="{{ question.body }}" class="question-body-input">
+                        <div class="question-body"></div>
+                    </div>
 
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
                         <textarea id="stdin" rows="5" style="width: 100%"
                                   placeholder="Custom standard input"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
                     <textarea id="stdout"
                               rows="8"
                               style="width: 100%"
                               placeholder="Custom test case output"
                               disabled></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
                     <textarea id="stderr"
                               rows="8"
                               style="width: 100%"
                               placeholder="Custom test case error"
                               disabled></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul class="test-case-results-list" id="test-case-results-list"></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="starter-code-modal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"></h4>
-                    </div>
-                    <div id="modalEditor"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Ignore</button>
-                        <button type="button" class="btn btn-primary"
-                                data-dismiss="modal" id="use-starter-code">Use Starter Code
-                        </button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-default navbar-fixed-bottom">
+
+    <div id="starter-code-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div id="modalEditor"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ignore</button>
+                    <button type="button" class="btn btn-primary"
+                            data-dismiss="modal" id="use-starter-code">Use Starter Code
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom question-navbar">
         <div class="container-fluid">
+            <ul id="all-passed-ul" class="nav navbar-nav"></ul>
+
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#" class="btn btn-danger" id="submit">Submit</a></li>
-                <li class="active"><a href="#" id="submit-custom" class="active">Custom Input</a></li>
+                <li>
+                    <a>
+                        <button href="#" class="btn btn-primary" id="submit">Submit Solution</button>
+                        <button href="#" class="btn btn-default" id="submit-custom">Custom Input</button>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>

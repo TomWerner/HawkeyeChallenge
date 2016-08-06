@@ -25,6 +25,17 @@ $(document).ready(function () {
     var questionSubmissionForm, languageSelect, codeInput, testCaseResultsList, submitButton, editor,
         customSubmitButton, modalEditor, useStarterCodeButton;
     var testCaseResultStream;
+    $('#question-spinner').hide();
+    $('#test-case-results-header').hide();
+
+    var finishSubmission = function() {
+        $('#question-spinner').hide();
+    };
+
+    var startSubmission = function() {
+        $('#question-spinner').show();
+        $('#test-case-results-header').show();
+    };
 
     var handleTestCaseResult = function (event) {
         var testCaseResult = JSON.parse(event.data);
@@ -33,17 +44,18 @@ $(document).ready(function () {
             submitButton.html('Submit');
             submitButton.attr('disabled', false);
             if (testCaseResult['passed']) {
-                testCaseResultsList.empty();
                 testResultHtml =
                     '<li><pre class="alert alert-success">All test cases passed!! <a href="/questions">Try another question!</a></pre></li>';
                 testCaseResultsList.append(testResultHtml);
             }
+            finishSubmission();
         }
         else if (testCaseResult.type === 'error') {
             testCaseResultStream.close();
             submitButton.html('Submit');
             submitButton.attr('disabled', false);
             alert(testCaseResult['message']);
+            finishSubmission();
         }
         else {
             var testResultHtml;
@@ -62,6 +74,10 @@ $(document).ready(function () {
     };
 
     var onSubmit = function () {
+        if (!confirm("Incorrect submissions have a 10 minute time penalty. Do you wish to submit a solution?")) {
+            return;
+        }
+        startSubmission();
         var code = editor.getValue().trim();
         codeInput.val(code);
         var questionId = $('#question-id').val();
