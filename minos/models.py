@@ -75,7 +75,7 @@ class Team(models.Model):
             num_incorrect_submissions = question.submission_set.filter(correct=False, team=self).count()
             penalty_time += num_incorrect_submissions * penalty_in_minutes * 60  # Convert to seconds
 
-            if question.submission_set.filter(correct=True).count() > 0:
+            if question.submission_set.filter(correct=True, team=self).count() > 0:
                 questions_correct += 1
                 correct_submission = question.submission_set.filter(correct=True, team=self).order_by('submission_time')[0]
                 submission_time += \
