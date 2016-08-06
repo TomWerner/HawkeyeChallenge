@@ -2,8 +2,38 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="container">
-    <h2>Page View Report</h2>
-</div>
+    <div class="container">
+        <div class="row">
+            <h2 class="col-md-offset-2 col-md-8">Question Clarification</h2>
+        </div>
+        {% for request in requests %}
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8">
+                    <h3>For: <a href="/questions/{{ request.question.id }}">{{ request.question.title }}</a></h3>
+                    <p><b>Question:</b><br>{{ request.body|linebreaksbr }}</p>
+                    {% if request.clarificationanswer_set.count > 0 %}
+                        <span><b>Answer:</b><br></span>
+                        {% for answer in request.clarificationanswer_set.all %}
+                            <p>{{ answer.body }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% if is_admin %}
+                        <form name="clarification_answer" action="/add_clarification_answer" class="form">
+                            <div class="input-group">
+                                <input type="text"
+                                       name="answer"
+                                       class="form-control"
+                                       placeholder="Clarification Answer">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-secondary" type="submit">Reply</button>
+                                </span>
+                            </div>
+                            <input type="hidden" value="{{ request.id }}" name="request_id">
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

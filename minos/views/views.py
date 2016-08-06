@@ -1,15 +1,11 @@
-import operator
-
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import condition
-import datetime
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from django.contrib import messages
 
-from minos.models import Question, Team, TestCase, Submission, Contest, Rule
+from minos.models import Team, Contest, Rule, ClarificationRequest, ClarificationAnswer
 
 
 def contest_required(function):
@@ -73,8 +69,28 @@ def rank_current_teams(team_list):
 
 
 @login_required
+@contest_required
 def clarify(request):
-    return render(request, 'clarify.html', {'current_tab': 'clarify'})
+    team = Team.objects.get(user=request.user)
+    requests = ClarificationRequest.objects.filter(question__contest=team.current_contest,
+                                                   question__division=team.division).order_by('-id')
+
+    return render(request, 'clarify.html', {
+        'current_tab': 'clarify',
+        'requests': requests,
+        'is_admin': request.user.is_superuser
+    })
+
+
+@login_required
+@staff_member_required
+def add_clarification_answer(request):
+    if len(request.GET.get('answer', '')) == 0:
+        messages.error(request, 'Missing answer text')
+    else:
+        answer = ClarificationAnswer(request_id=request.GET['request_id'], body=request.GET['answer'])
+        answer.save()
+    return redirect('/clarify')
 
 
 @login_required

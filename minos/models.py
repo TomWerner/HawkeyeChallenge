@@ -100,3 +100,13 @@ class StarterCode(models.Model):
 class Rule(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField()
+
+
+class ClarificationRequest(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    body = models.TextField()
+
+
+class ClarificationAnswer(models.Model):
+    request = models.ForeignKey(ClarificationRequest, on_delete=models.CASCADE)
+    body = models.TextField()
