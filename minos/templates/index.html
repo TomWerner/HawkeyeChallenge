@@ -11,17 +11,30 @@
                     <h3 class="contest-title">{{ contest.title }}</h3>
                 </div>
                 <div class="col-md-2">
-                    <a href="pickContest/{{ contest.id }}"
-                       class="btn btn-primary contest-button"
-                       {% if not contest.active %}disabled{% endif %}>
-                        Choose Contest
-                    </a>
+                    {% if contest == selected_contest %}
+                        <a href="pickContest/{{ contest.id }}"
+                           class="btn btn-primary contest-button"
+                           disabled>
+                            Selected Contest
+                        </a>
+                    {% elif not contest.active %}
+                        <a href="pickContest/{{ contest.id }}"
+                           class="btn btn-default contest-button"
+                           disabled>
+                            Inactive Contest
+                        </a>
+                    {% else %}
+                        <a href="pickContest/{{ contest.id }}"
+                           class="btn btn-primary contest-button">
+                            Select Contest
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
                 {% if contest.active %}
                     <div class="contest-time">Contest active since {{ contest.start_date }}</div>
-                {%  elif contest.closed %}
+                {% elif contest.closed %}
                     <div class="contest-time">Contest closed</div>
                 {% else %}
                     <div class="contest-time">Contest opens on {{ contest.start_date }}</div>

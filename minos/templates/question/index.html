@@ -21,7 +21,7 @@
                         <a href="question/{{ question.id }}" class="btn btn-default question-button">View Question</a>
                         <div class="question-status">Finished!</div>
                     {% else %}
-                        <a href="question/{{ question.id }}"  class="btn btn-primary question-button">Start Question</a>
+                        <a href="question/{{ question.id }}" class="btn btn-primary question-button">Start Question</a>
                         <div class="question-status"><b>Not completed</b></div>
                     {% endif %}
                     <div class="question-attempts">Attempts: {{ question.num_submissions }}</div>

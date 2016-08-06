@@ -28,11 +28,16 @@ def contest_required(function):
 # Create your views here.
 @login_required
 def index(request):
+    team = Team.objects.get(user=request.user)
     contests = Contest.objects.all()
     for contest in contests:
         if not contest.active and contest.start_date < timezone.now():
             contest.closed = True
-    return render(request, 'index.html', {'current_tab': 'home', 'error': '', 'contests': contests})
+    return render(request, 'index.html', {
+        'current_tab': 'home',
+        'contests': contests,
+        'selected_contest': team.current_contest
+    })
 
 
 @login_required
