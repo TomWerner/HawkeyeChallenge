@@ -1,24 +1,9 @@
 body {
+    font-family: 'Roboto', sans-serif;
     background: #f6f6f6;
 }
 
 .top-message {
     text-align: center;
     margin-top: -20px;
-}
-
-.contest-button {
-    margin-top: 37px;
-    margin-bottom: 0;
-    width: 100%;
-}
-
-.contest-title {
-    margin-top: 40px;
-    margin-bottom: 0;
-}
-
-.contest-time {
-    margin-left: 16px;
-    color: #999;
 }

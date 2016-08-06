@@ -23,18 +23,17 @@ $(document).ready(function () {
     });
 
     var questionSubmissionForm, languageSelect, codeInput, testCaseResultsList, submitButton, editor,
-        customSubmitButton, modalEditor, useStarterCodeButton;
+        customSubmitButton, modalEditor, useStarterCodeButton, questionSpinner, testCaseResultsHeader,
+        clarifyRequest;
     var testCaseResultStream;
-    $('#question-spinner').hide();
-    $('#test-case-results-header').hide();
 
     var finishSubmission = function() {
-        $('#question-spinner').hide();
+        questionSpinner.hide();
     };
 
     var startSubmission = function() {
-        $('#question-spinner').show();
-        $('#test-case-results-header').show();
+        questionSpinner.show();
+        testCaseResultsHeader.show();
     };
 
     var handleTestCaseResult = function (event) {
@@ -99,10 +98,10 @@ $(document).ready(function () {
         return languageString;
     };
 
-    var showModal = function () {
+    var showStarterCodeModal = function () {
         var selectedLanguage = languageSelect.val();
         var languageText = $('[value="' + selectedLanguage + '"]').text();
-        $('.modal-title').text('Use ' + languageText + ' Starter Code?');
+        $('#starter-code-modal-title').text('Use ' + languageText + ' Starter Code?');
         $.get('/starterCode?language=' + encodeURIComponent(selectedLanguage))
             .success(function (e) {
                 modalEditor = ace.edit('modalEditor');
@@ -136,6 +135,12 @@ $(document).ready(function () {
         submitButton = $('#submit');
         customSubmitButton = $('#submit-custom');
         useStarterCodeButton = $('#use-starter-code');
+        questionSpinner = $('#question-spinner');
+        testCaseResultsHeader = $('#test-case-results-header');
+        clarifyRequest = $('#clarify-request');
+
+        questionSpinner.hide();
+        testCaseResultsHeader.hide();
 
         languageSelect.val($('#language').val());
 
@@ -146,13 +151,13 @@ $(document).ready(function () {
         editor.setOptions({maxLines: 40});
         setEditorValue(codeInput.val());
         if (codeInput.val().length === 0) {
-            showModal();
+            showStarterCodeModal();
         }
         editor.setShowPrintMargin(false);
 
         languageSelect.on('change', function () {
             editor.getSession().setMode(fixPython3(this.value));
-            showModal();
+            showStarterCodeModal();
         });
 
         submitButton.on('click', function (e) {
@@ -162,6 +167,10 @@ $(document).ready(function () {
 
         useStarterCodeButton.on('click', function () {
             setEditorValue(modalEditor.getValue());
+        });
+
+        clarifyRequest.on('click', function(e) {
+
         });
 
         customSubmitButton.on('click', function (e) {

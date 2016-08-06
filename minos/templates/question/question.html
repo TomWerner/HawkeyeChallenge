@@ -92,7 +92,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
+                    <h4 class="modal-title" id="starter-code-modal-title"></h4>
                 </div>
                 <div id="modalEditor"></div>
                 <div class="modal-footer">
@@ -107,13 +107,19 @@
     </div>
     <nav class="navbar navbar-default navbar-fixed-bottom question-navbar">
         <div class="container-fluid">
-            <ul id="all-passed-ul" class="nav navbar-nav"></ul>
+            <ul id="all-passed-ul" class="nav navbar-nav">
+                <li>
+                    <a>
+                        <button class="btn btn-primary" id="clarify-request">Make Clarification Request</button>
+                    </a>
+                </li>
+            </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a>
-                        <button href="#" class="btn btn-primary" id="submit">Submit Solution</button>
-                        <button href="#" class="btn btn-default" id="submit-custom">Custom Input</button>
+                        <button class="btn btn-primary" id="submit">Submit Solution</button>
+                        <button class="btn btn-default" id="submit-custom">Run with Custom Input</button>
                     </a>
                 </li>
             </ul>
