@@ -116,6 +116,10 @@ $(document).ready(function () {
         $('#starter-code-modal').modal('show');
     };
 
+    var showClarificationRequestModal = function() {
+        $('#clarification-modal').modal('show');
+    };
+
     var setEditorValue = function (newEditorValue) {
         editor.setValue(newEditorValue);
 
@@ -170,7 +174,7 @@ $(document).ready(function () {
         });
 
         clarifyRequest.on('click', function(e) {
-
+            showClarificationRequestModal();
         });
 
         customSubmitButton.on('click', function (e) {

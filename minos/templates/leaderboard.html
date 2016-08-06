@@ -14,11 +14,11 @@
             </tr>
             </thead>
             <tbody>
-            {% for team in team_list %}
+            {% for obj in team_list %}
                 <tr>
-                    <td>{{ team.team_name }}</td>
-                    <td>{{ team.questions_correct }}</td>
-                    <td>{{ team.total_time }}</td>
+                    <td>{{ obj.team_name }}</td>
+                    <td>{{ obj.questions_correct }}</td>
+                    <td>{{ obj.total_time }}</td>
                 </tr>
             {% endfor %}
             </tbody>
