@@ -58,12 +58,14 @@ class TeamTestCase(TestCase):
     def test_get_correct_multiple_questions(self):
         self.create_submission(self.team_1, False, self.question_1, delay=3)
         self.create_submission(self.team_1, True, self.question_1, delay=5)
+        self.create_submission(self.team_1, True, self.question_1, delay=5)
         question_1_penalty = 1 * penalty_in_minutes * minutes_to_seconds
         question_1_time = 5 * minutes_to_seconds
 
         self.create_submission(self.team_1, False, self.question_2, delay=1)
         self.create_submission(self.team_1, False, self.question_2, delay=2)
         self.create_submission(self.team_1, False, self.question_2, delay=3)
+        self.create_submission(self.team_1, True, self.question_2, delay=12)
         self.create_submission(self.team_1, True, self.question_2, delay=12)
         question_2_penalty = 3 * penalty_in_minutes * minutes_to_seconds
         question_2_time = 12 * minutes_to_seconds

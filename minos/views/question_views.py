@@ -9,6 +9,7 @@ from django.views.decorators.http import condition
 from minos.models import Question, Team, TestCase, Submission, StarterCode
 from minos.views.views import contest_required
 
+import logging
 
 @login_required
 @contest_required
@@ -88,7 +89,9 @@ def stream_submit_question(request, question):
         try:
             json_response = make_compilebox_request(submission.language, submission.code, test_case.standard_in)
         except Exception as e:
-            yield 'data: {"type": "result", "passed": false, "message": "Server error. Contact a judge."}\n\n'
+            logging.error(e)
+            yield 'data: {"type": "result", "passed": false, "message": "Server error. Contact a judge.\\n' \
+                  'Note: No time penalty is applied, try to submit again."}\n\n'
             yield "data: {\"type\": \"done\"}\n\n"
             return
         passed_str, message = extract_compilebox_results(json_response, test_case, submission.language, i)
