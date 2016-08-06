@@ -1,0 +1,82 @@
+[
+  {
+    "model": "minos.rule",
+    "pk": 1,
+    "fields": {
+      "title": "Materials",
+      "body": "During the competition, team members may use written materials (e.g., textbooks) of any kind. Pencils and scratch paper will be provided. Calculators are permitted. Teams may not bring any storage devices. We will provide flash drives as necessary."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 2,
+    "fields": {
+      "title": "Computers",
+      "body": "Each team will be assigned one computer to use during the competition. Instructions on computer usage will be given during the orientation meeting preceding the competition. Tables at the back of the room will be available for work away from the computer."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 3,
+    "fields": {
+      "title": "Student Monitors",
+      "body": "Student monitors from UI will be available to assist team members. The monitors will answer questions concerning computer usage and competition procedures but will not answer any questions regarding logic, language syntax, or problem interpretation."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 4,
+    "fields": {
+      "title": "Problems",
+      "body": "When the competition begins, each team will be given 5 computer problems to solve. Team members may work on these problems in any order and in any manner they choose. There will be 3 hours to work on these solutions."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 5,
+    "fields": {
+      "title": "Testing",
+      "body": "Each team may run their program using their own test data inputs as many times as they wish. We urge you to use the sample provided with each problem statement, but do not assume that because your program works with the sample data that it will work with the actual competition test data. More test cases will be released as \"hints\" to the problem as the competition goes on.  This will help verify your code; however, test your programs very carefully before submitting them for judging."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 6,
+    "fields": {
+      "title": "Questions and Clarification",
+      "body": "Once the competition begins, all direct or indirect interaction between the teams and judges will be limited to clarification requests made through the competition interface.This includes requests for clarification of problems as well as any other question about a specific problem. These questions, and their answers, will be viewable under the clarification tab in the competition interface."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 7,
+    "fields": {
+      "title": "Submissions",
+      "body": "A submission consists submitting a solution for a question through the competition interface, after which it will be evaluated against all official test cases. Teams may make as many submissions as they wish; however, each incorrect submission adds 10 minutes of time to the eventual problem completion time (see Standings section for more info)."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 8,
+    "fields": {
+      "title": "Time of Execution",
+      "body": "When a submission is being tested against the official competition data, a solution will be judged to be incorrect if it does not execute in less than 30 seconds."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 9,
+    "fields": {
+      "title": "Judging",
+      "body": "After submitting a question solution, you will see the test case results listed below your editor in the competition interface. Each test case will state if it passed or failed, however, not all failures will list the reason. Every 30 minutes, more test cases will display the error cause (such as if there was a timeout, or the difference between the expected output and the actual output)."
+    }
+  },
+  {
+    "model": "minos.rule",
+    "pk": 10,
+    "fields": {
+      "title": "Standings",
+      "body": "Teams will be ranked according to the number of problems they complete correctly. For example, a team that completes 5 problems correctly will finish ahead of a team that completes 4 problems correctly. There is no penalty for problems that are not solved. In the event of a tie, the teams that tied will be ranked according to the total accumulated time taken by each team. Accumulated time is measured as follows: for each problem completed correctly, the time from the start of the contest to the completion of the problem is calculated and added to the team\u2019s total accumulated time. Furthermore, 10 minutes per incorrect submission of a problem are added to the total time for that problem. For example, if a team turned in two incorrect solutions to a problem (when they turn them in doesn\u2019t matter) and correctly solve the problem after 2 hours, the total solution time for that problem will be 2 hours and 20 minutes. If two teams complete the same number of problems, the team that has an accumulated time of 120 minutes would be ranked ahead of the team that has an accumulated time of 140 minutes. Live standings are available for viewing on the leaderboard page of the competition interface."
+    }
+  }
+]

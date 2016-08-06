@@ -9,7 +9,7 @@ import datetime
 from django.utils import timezone
 from django.contrib import messages
 
-from minos.models import Question, Team, TestCase, Submission, Contest
+from minos.models import Question, Team, TestCase, Submission, Contest, Rule
 
 
 def contest_required(function):
@@ -23,9 +23,6 @@ def contest_required(function):
     return wrapper
     
     
-
-
-# Create your views here.
 @login_required
 def index(request):
     team = Team.objects.get(user=request.user)
@@ -42,7 +39,8 @@ def index(request):
 
 @login_required
 def rules(request):
-    return render(request, 'rules.html', {'current_tab': 'rules'})
+    rules = Rule.objects.all()
+    return render(request, 'rules.html', {'current_tab': 'rules', 'rules': rules})
 
 
 @login_required

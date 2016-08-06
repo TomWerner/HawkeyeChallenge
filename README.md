@@ -10,8 +10,9 @@ $ npm install bower
 $ bower install
 $ python manage.py migrate
 $ python manage.py createsuperuser
-$ python manage.py loaddata startercode.json
+$ python manage.py loaddata starter_code.json
 $ python manage.py loaddata starter_contest.json
+$ python manage.py loaddata starter_rules.json
 $ python manage.py runserver
 ```
 
@@ -23,6 +24,7 @@ $ heroku run python manage.py collectstatic
 
 # First time only
 $ heroku run python manage.py createsuperuser
-$ heroku run python manage.py loaddata startercode.json
+$ heroku run python manage.py loaddata starter_code.json
 $ heroku run python manage.py loaddata starter_contest.json
+$ heroku run python manage.py loaddata starter_rules.json
 ```
