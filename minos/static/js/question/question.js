@@ -40,7 +40,7 @@ $(document).ready(function () {
         var testCaseResult = JSON.parse(event.data);
         if (testCaseResult.type === 'done') {
             testCaseResultStream.close();
-            submitButton.html('Submit');
+            submitButton.html('Submit Solution');
             submitButton.attr('disabled', false);
             if (testCaseResult['passed']) {
                 testResultHtml =
@@ -194,7 +194,7 @@ $(document).ready(function () {
                     'stdin': $('#stdin').val()
                 },
                 success: function (e) {
-                    customSubmitButton.html('Custom Input');
+                    customSubmitButton.html('Run with Custom Input');
                     customSubmitButton.attr('disabled', false);
                     $('#stdout').val(e['output']);
                     $('#stderr').val(e['errors']);
