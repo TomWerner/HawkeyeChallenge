@@ -24,7 +24,7 @@ $(document).ready(function () {
 
     var questionSubmissionForm, languageSelect, codeInput, testCaseResultsList, submitButton, editor,
         customSubmitButton, modalEditor, useStarterCodeButton, questionSpinner, testCaseResultsHeader,
-        clarifyRequest;
+        clarifyRequest, questionId;
     var testCaseResultStream;
 
     var finishSubmission = function() {
@@ -79,7 +79,6 @@ $(document).ready(function () {
         startSubmission();
         var code = editor.getValue().trim();
         codeInput.val(code);
-        var questionId = $('#question-id').val();
         var languageString = languageSelect.val().toString();
         $('#language').val(languageString);
 
@@ -117,7 +116,11 @@ $(document).ready(function () {
     };
 
     var showClarificationRequestModal = function() {
+        $('#clarify-textarea').val('');
         $('#clarification-modal').modal('show');
+        $('#clarify-submit').on('click', function() {
+            $.get('/clarification_request/' + questionId + '/?' + $('#clarification-request-form').serialize());
+        });
     };
 
     var setEditorValue = function (newEditorValue) {
@@ -142,6 +145,7 @@ $(document).ready(function () {
         questionSpinner = $('#question-spinner');
         testCaseResultsHeader = $('#test-case-results-header');
         clarifyRequest = $('#clarify-request');
+        questionId = $('#question-id').val();
 
         questionSpinner.hide();
         testCaseResultsHeader.hide();

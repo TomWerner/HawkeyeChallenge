@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^leaderboard', views.leaderboard, name='leaderboard'),
     url(r'^clarify', views.clarify, name='clarify'),
     url(r'^add_clarification_answer', views.add_clarification_answer, name='add_clarification_answer'),
+    url(r'^clarification_request/([0-9]+)', views.add_clarification_request, name='add_clarification_request'),
     url(r'^pickContest/([0-9]+)$', views.pick_contest, name='pick_contest'),
 ] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -71,3 +71,8 @@
 .question-spinner-div {
     text-align: center;
 }
+
+.clarify-textarea {
+    border-radius: 0;
+    resize: vertical;
+}

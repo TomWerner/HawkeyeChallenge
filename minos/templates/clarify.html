@@ -13,7 +13,15 @@
         {% for request in requests %}
             <div class="row">
                 <div class="col-md-offset-2 col-md-8">
-                    <h3>For: <a href="/question/{{ request.question.id }}">{{ request.question.title }}</a></h3>
+                    <h3>For:
+                        <a href="/question/{{ request.question.id }}">
+                            {{ request.question.title }}
+                        </a>
+                        &nbsp;
+                        {% if request.clarificationanswer_set.count == 0 and is_admin %}
+                            <b>(Unanswered)</b>
+                        {% endif %}
+                    </h3>
                     <p><b>Question:</b><br>{{ request.body|linebreaksbr }}</p>
                     {% if request.clarificationanswer_set.count > 0 %}
                         <span><b>Answer:</b><br></span>

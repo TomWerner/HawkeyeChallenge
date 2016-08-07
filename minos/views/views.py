@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
@@ -91,6 +92,15 @@ def add_clarification_answer(request):
         answer = ClarificationAnswer(request_id=request.GET['request_id'], body=request.GET['answer'])
         answer.save()
     return redirect('/clarify')
+
+
+@login_required
+@staff_member_required
+def add_clarification_request(request, question_id):
+    if len(request.GET.get('body', '')) != 0:
+        clarify = ClarificationRequest(question_id=question_id, body=request.GET['body'])
+        clarify.save()
+    return HttpResponse(200)
 
 
 @login_required
