@@ -12,6 +12,7 @@ languages = (
     ('ace/mode/vbscript', 'Visual Basic'),
     ('ace/mode/c_cpp', 'C++ 11'),
     ('ace/mode/csharp', 'C#'),
+    ('ace/mode/javascript', 'NodeJS'),
 )
 penalty_in_minutes = 10
 

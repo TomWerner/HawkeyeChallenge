@@ -117,7 +117,8 @@ def make_compilebox_request(language, code, stdin):
         'ace/mode/c_cpp': 1,
         'ace/mode/java': 2,
         'ace/mode/vbscript': 3,
-        'ace/mode/csharp': 4
+        'ace/mode/csharp': 4,
+        'ace/mode/javascript': 6
     }
 
     r = requests.post(settings.COMPILEBOX_URL + "/compile", json={
