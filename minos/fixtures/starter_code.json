@@ -46,5 +46,13 @@
       "language": "ace/mode/csharp",
       "code": "using System;\nusing System.Collections.Generic;\nusing System.IO;\nusing System.Linq;\nclass Solution {\n    static void Main(String[] args) {\n        /* Try a custom stdin of:\n5\nString\n2.3\n        */\n        int intFromStdIn = Convert.ToInt32(Console.ReadLine());\n        String lineFromStdIn = Console.ReadLine();\n        double doubleFromStdIn = Convert.ToDouble(Console.ReadLine());\n        \n        Console.WriteLine(intFromStdIn);\n        Console.WriteLine(lineFromStdIn);\n        Console.WriteLine(doubleFromStdIn);\n    }\n}"
     }
+  },
+  {
+    "model": "minos.startercode",
+    "pk": 7,
+    "fields": {
+      "language": "ace/mode/javascript",
+      "code": "// Warning: Be sure to test that any packages you require succeed using custom test cases.\n//          We cannot add new packages for you.\n\nvar stdin = process.openStdin();\n/*\nTry with custom input of:\n5\nString\n2.3\n*/\n\nstdin.addListener(\"data\", function(data) {\n    inputLines = data.toString().trim().split('\\n');\n    main(inputLines);\n});\n\nvar main = function(inputLines) {\n    var intFromStdIn = parseInt(inputLines[0], 10);\n    var lineFromStdIn = inputLines[1];\n    var floatFromStdIn = parseFloat(inputLines[2]);\n    \n    console.log(intFromStdIn);\n    console.log(lineFromStdIn);\n    console.log(floatFromStdIn);\n}"
+    }
   }
 ]
