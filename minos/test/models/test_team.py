@@ -71,12 +71,27 @@ class TeamTestCase(TestCase):
         question_2_time = 12 * minutes_to_seconds
 
         self.create_submission(self.team_1, False, self.question_3, delay=20)
-        question_3_time = 20 * minutes_to_seconds
+        question_3_time = 1 * penalty_in_minutes * minutes_to_seconds
 
-        self.create_submission(self.team_2, False, self.question_3, delay=20)
+        self.create_submission(self.team_2, False, self.question_3, delay=25)
 
         correct, time = self.team_1.get_correct_and_time()
         self.assertEquals(correct, 2)
         self.assertEquals(int(time), (question_1_penalty + question_1_time +
                                       question_2_penalty + question_2_time +
                                       question_3_time))
+
+    def test_get_correct_multiple_questions_two_teams(self):
+        self.create_submission(self.team_1, False, self.question_1, delay=3)
+        self.create_submission(self.team_1, True, self.question_1, delay=5)
+
+        self.create_submission(self.team_2, True, self.question_1, delay=13)
+        self.create_submission(self.team_2, True, self.question_2, delay=25)
+
+        correct, time = self.team_1.get_correct_and_time()
+        self.assertEquals(correct, 1)
+        self.assertEquals(int(time), (5 + 10) * 60)
+
+        correct, time = self.team_2.get_correct_and_time()
+        self.assertEquals(correct, 2)
+        self.assertEquals(int(time), (13 + 25) * 60)
