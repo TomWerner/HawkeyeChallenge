@@ -121,7 +121,7 @@ def login_view(request):
     user = authenticate(username=request.POST['username'], use_password=False)
     if user is not None:
         login(request, user)
-        return redirect('/', request=request)
+        return redirect('/questions', request=request)
     else:
         return render(request, 'registration/login.html', {'error': 'Invalid username.'})
 
